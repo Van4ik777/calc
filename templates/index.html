@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор шкідливих звичок</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="gradient-bg text-white py-6 px-4 shadow-lg">
+        <div class="container mx-auto">
+            <h1 class="text-3xl md:text-4xl font-bold text-center mb-2">
+                🚬 Калькулятор шкідливих звичок 🍺
+            </h1>
+            <p class="text-center text-lg opacity-90">
+                Розрахуйте вартість ваших звичок та дізнайтеся про ризики для здоров'я
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Форма калькулятора -->
+        <section class="bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 rounded-2xl shadow-xl p-8 mb-8 border-2 border-purple-200">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+                    Розрахуйте витрати
+                </h2>
+                <p class="text-gray-600 text-lg">Оберіть шкідливі звички та дізнайтеся їх справжню вартість</p>
+            </div>
+            
+            <form id="calculatorForm" class="space-y-6">
+                <!-- Енергетики -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-purple-100 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">⚡</span>
+                            <h3 class="text-xl font-bold text-gray-800">Енергетики</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                            <input type="checkbox" id="energy_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="energy_options" class="space-y-4 hidden">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Тип енергетика</label>
+                                <select id="energy_type" class="w-full p-3 border-2 border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    <option value="budget">Бюджетний (30 грн/банка)</option>
+                                    <option value="medium">Середній (50 грн/банка)</option>
+                                    <option value="premium">Преміум (70 грн/банка)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість банок на день
+                                </label>
+                                <input type="number" id="energy_daily" min="1" max="10" value="3" 
+                                       class="w-full p-3 border-2 border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Алкоголь -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-pink-100 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🍺</span>
+                            <h3 class="text-xl font-bold text-gray-800">Слабоалкогольні напої</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors">
+                            <input type="checkbox" id="alcohol_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="alcohol_options" class="space-y-4 hidden">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Тип напою</label>
+                                <select id="alcohol_type" class="w-full p-3 border-2 border-pink-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
+                                    <option value="budget">Бюджетний (35 грн/банка)</option>
+                                    <option value="medium">Середній (55 грн/банка)</option>
+                                    <option value="premium">Преміум (100 грн/банка)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість банок на день
+                                </label>
+                                <input type="number" id="alcohol_daily" min="1" max="10" value="3" 
+                                       class="w-full p-3 border-2 border-pink-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кава -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-yellow-100 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">☕</span>
+                            <h3 class="text-xl font-bold text-gray-800">Кава</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                            <input type="checkbox" id="coffee_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="coffee_options" class="space-y-4 hidden">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Тип кави</label>
+                                <select id="coffee_type" class="w-full p-3 border-2 border-yellow-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                                    <option value="budget">Бюджетна (40 грн/чашка)</option>
+                                    <option value="medium">Середня (60 грн/чашка)</option>
+                                    <option value="premium">Преміум (90 грн/чашка)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість чашок на день
+                                </label>
+                                <input type="number" id="coffee_daily" min="1" max="10" value="2" 
+                                       class="w-full p-3 border-2 border-yellow-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Газовані напої -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-blue-100 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🥤</span>
+                            <h3 class="text-xl font-bold text-gray-800">Газовані напої</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                            <input type="checkbox" id="soda_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="soda_options" class="space-y-4 hidden">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Тип напою</label>
+                                <select id="soda_type" class="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="budget">Бюджетний (15 грн/банка)</option>
+                                    <option value="medium">Середній (25 грн/банка)</option>
+                                    <option value="premium">Преміум (40 грн/банка)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість банок на день
+                                </label>
+                                <input type="number" id="soda_daily" min="1" max="10" value="2" 
+                                       class="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Куріння -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🚬</span>
+                            <h3 class="text-xl font-bold text-gray-800">Куріння</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <input type="checkbox" id="smoking_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="smoking_options" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Тип куріння</label>
+                            <select id="smoking_type" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
+                                <option value="cigarettes">Традиційні цигарки</option>
+                                <option value="vape_disposable">Одноразова е-сигарета</option>
+                                <option value="vape_reusable">Багаторазова е-сигарета</option>
+                                <option value="hookah">Кальян</option>
+                            </select>
+                        </div>
+                        
+                        <div id="cigarettes_options" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість цигарок на день
+                                </label>
+                                <input type="number" id="cigarettes_daily" min="1" max="40" value="20" 
+                                       class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
+                            </div>
+                        </div>
+                        
+                        <div id="vape_disposable_options" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість одноразових е-сигарет на місяць
+                                </label>
+                                <input type="number" id="vape_disposable_monthly" min="1" max="30" value="4" 
+                                       class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
+                            </div>
+                        </div>
+                        
+                        <div id="vape_reusable_options" class="space-y-4 hidden">
+                            <p class="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+                                Багаторазова е-сигарета: 800 грн (разова покупка) + 900 грн/місяць на обслуговування
+                            </p>
+                        </div>
+                        
+                        <div id="hookah_options" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість сеансів кальяну на тиждень
+                                </label>
+                                <input type="number" id="hookah_weekly" min="1" max="14" value="2" 
+                                       class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Фастфуд -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-orange-100 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🍔</span>
+                            <h3 class="text-xl font-bold text-gray-800">Фастфуд</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                            <input type="checkbox" id="junk_food_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="junk_food_options" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Тип фастфуду</label>
+                            <select id="junk_food_type" class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                <option value="chips">Чіпси та снеки</option>
+                                <option value="pizza">Піца</option>
+                                <option value="burgers">Бургери</option>
+                                <option value="sweets">Солодощі</option>
+                            </select>
+                        </div>
+                        
+                        <div id="chips_options" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість пачок на тиждень
+                                </label>
+                                <input type="number" id="chips_weekly" min="1" max="14" value="3" 
+                                       class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                            </div>
+                        </div>
+                        
+                        <div id="pizza_options" class="space-y-4 hidden">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Тип піци</label>
+                                    <select id="pizza_type" class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                        <option value="budget">Бюджетна (120 грн)</option>
+                                        <option value="medium">Середня (200 грн)</option>
+                                        <option value="premium">Преміум (350 грн)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Кількість на тиждень
+                                    </label>
+                                    <input type="number" id="pizza_weekly" min="1" max="7" value="1" 
+                                           class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="burgers_options" class="space-y-4 hidden">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Тип бургерів</label>
+                                    <select id="burgers_type" class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                        <option value="budget">Бюджетні (80 грн)</option>
+                                        <option value="medium">Середні (150 грн)</option>
+                                        <option value="premium">Преміум (250 грн)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Кількість на тиждень
+                                    </label>
+                                    <input type="number" id="burgers_weekly" min="1" max="14" value="2" 
+                                           class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="sweets_options" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість упаковок солодощів на тиждень
+                                </label>
+                                <input type="number" id="sweets_weekly" min="1" max="14" value="4" 
+                                       class="w-full p-3 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Азартні ігри -->
+                <div class="bg-white rounded-xl p-5 shadow-md border border-red-100 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🎰</span>
+                            <h3 class="text-xl font-bold text-gray-800">Азартні ігри</h3>
+                        </div>
+                        <label class="flex items-center cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                            <input type="checkbox" id="gambling_enabled" class="mr-2 w-5 h-5">
+                            <span class="font-medium">Обрати</span>
+                        </label>
+                    </div>
+                    
+                    <div id="gambling_options" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Тип азартних ігор</label>
+                            <select id="gambling_type" class="w-full p-3 border-2 border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                <option value="lottery">Лотерея</option>
+                                <option value="casino">Казино</option>
+                                <option value="betting">Букмекерські ставки</option>
+                            </select>
+                        </div>
+                        
+                        <div id="lottery_options" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Кількість квитків на тиждень
+                                </label>
+                                <input type="number" id="lottery_weekly" min="1" max="20" value="4" 
+                                       class="w-full p-3 border-2 border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            </div>
+                        </div>
+                        
+                        <div id="casino_options" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Рівень програшу</label>
+                                <select id="casino_type" class="w-full p-3 border-2 border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    <option value="budget">Низький (200 грн/день)</option>
+                                    <option value="medium">Середній (500 грн/день)</option>
+                                    <option value="high">Високий (1000 грн/день)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="betting_options" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Рівень ставок</label>
+                                <select id="betting_type" class="w-full p-3 border-2 border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    <option value="budget">Низький (100 грн/тиждень)</option>
+                                    <option value="medium">Середній (300 грн/тиждень)</option>
+                                    <option value="high">Високий (700 грн/тиждень)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-700 hover:via-pink-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg">
+                    🧮💰 Розрахувати витрати
+                </button>
+            </form>
+        </section>
+
+        <!-- Результати -->
+        <section id="results" class="hidden">
+            <!-- Загальні витрати -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 card-hover">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">
+                    💸 Загальні витрати
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-blue-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-blue-600" id="total_day">0</div>
+                        <div class="text-sm text-gray-600">Гривень на день</div>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-green-600" id="total_week">0</div>
+                        <div class="text-sm text-gray-600">Гривень на тиждень</div>
+                    </div>
+                    <div class="bg-yellow-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-yellow-600" id="total_month">0</div>
+                        <div class="text-sm text-gray-600">Гривень на місяць</div>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-red-600" id="total_year">0</div>
+                        <div class="text-sm text-gray-600">Гривень на рік</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Деталізація -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 card-hover">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">
+                    📊 Деталізація витрат
+                </h2>
+                <div id="breakdown" class="space-y-4"></div>
+            </div>
+
+            <!-- Ризики для здоров'я -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8 card-hover">
+                <h2 class="text-2xl font-bold mb-6 text-red-600 border-b pb-3">
+                    ⚠️ Можливі захворювання
+                </h2>
+                <div id="diseases" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- Що можна купити -->
+            <div class="bg-white rounded-lg shadow-lg p-6 card-hover">
+                <h2 class="text-2xl font-bold mb-6 text-green-600 border-b pb-3">
+                    🛍️ Що можна купити на заощаджені гроші
+                </h2>
+                <div id="saving_ideas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 px-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p class="mb-2">💡 Пам'ятайте: здоров'я - найцінніше, що у вас є!</p>
+            <p class="text-sm opacity-75">Цей калькулятор допомагає усвідомити фінансові та медичні наслідки шкідливих звичок</p>
+        </div>
+    </footer>
+
+    <script>
+        // Обробка форм
+        document.getElementById('energy_enabled').addEventListener('change', function() {
+            document.getElementById('energy_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('alcohol_enabled').addEventListener('change', function() {
+            document.getElementById('alcohol_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('coffee_enabled').addEventListener('change', function() {
+            document.getElementById('coffee_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('soda_enabled').addEventListener('change', function() {
+            document.getElementById('soda_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('smoking_enabled').addEventListener('change', function() {
+            document.getElementById('smoking_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('junk_food_enabled').addEventListener('change', function() {
+            document.getElementById('junk_food_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('gambling_enabled').addEventListener('change', function() {
+            document.getElementById('gambling_options').classList.toggle('hidden', !this.checked);
+        });
+
+        document.getElementById('smoking_type').addEventListener('change', function() {
+            document.getElementById('cigarettes_options').classList.add('hidden');
+            document.getElementById('vape_disposable_options').classList.add('hidden');
+            document.getElementById('vape_reusable_options').classList.add('hidden');
+            document.getElementById('hookah_options').classList.add('hidden');
+            
+            if (this.value === 'cigarettes') {
+                document.getElementById('cigarettes_options').classList.remove('hidden');
+            } else if (this.value === 'vape_disposable') {
+                document.getElementById('vape_disposable_options').classList.remove('hidden');
+            } else if (this.value === 'vape_reusable') {
+                document.getElementById('vape_reusable_options').classList.remove('hidden');
+            } else if (this.value === 'hookah') {
+                document.getElementById('hookah_options').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('junk_food_type').addEventListener('change', function() {
+            document.getElementById('chips_options').classList.add('hidden');
+            document.getElementById('pizza_options').classList.add('hidden');
+            document.getElementById('burgers_options').classList.add('hidden');
+            document.getElementById('sweets_options').classList.add('hidden');
+            
+            if (this.value === 'chips') {
+                document.getElementById('chips_options').classList.remove('hidden');
+            } else if (this.value === 'pizza') {
+                document.getElementById('pizza_options').classList.remove('hidden');
+            } else if (this.value === 'burgers') {
+                document.getElementById('burgers_options').classList.remove('hidden');
+            } else if (this.value === 'sweets') {
+                document.getElementById('sweets_options').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('gambling_type').addEventListener('change', function() {
+            document.getElementById('lottery_options').classList.add('hidden');
+            document.getElementById('casino_options').classList.add('hidden');
+            document.getElementById('betting_options').classList.add('hidden');
+            
+            if (this.value === 'lottery') {
+                document.getElementById('lottery_options').classList.remove('hidden');
+            } else if (this.value === 'casino') {
+                document.getElementById('casino_options').classList.remove('hidden');
+            } else if (this.value === 'betting') {
+                document.getElementById('betting_options').classList.remove('hidden');
+            }
+        });
+
+        // Відправка форми
+        document.getElementById('calculatorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                energy_enabled: document.getElementById('energy_enabled').checked,
+                alcohol_enabled: document.getElementById('alcohol_enabled').checked,
+                coffee_enabled: document.getElementById('coffee_enabled').checked,
+                soda_enabled: document.getElementById('soda_enabled').checked,
+                smoking_enabled: document.getElementById('smoking_enabled').checked,
+                junk_food_enabled: document.getElementById('junk_food_enabled').checked,
+                gambling_enabled: document.getElementById('gambling_enabled').checked
+            };
+            
+            if (formData.energy_enabled) {
+                formData.energy_type = document.getElementById('energy_type').value;
+                formData.energy_daily = document.getElementById('energy_daily').value;
+            }
+            
+            if (formData.alcohol_enabled) {
+                formData.alcohol_type = document.getElementById('alcohol_type').value;
+                formData.alcohol_daily = document.getElementById('alcohol_daily').value;
+            }
+            
+            if (formData.coffee_enabled) {
+                formData.coffee_type = document.getElementById('coffee_type').value;
+                formData.coffee_daily = document.getElementById('coffee_daily').value;
+            }
+            
+            if (formData.soda_enabled) {
+                formData.soda_type = document.getElementById('soda_type').value;
+                formData.soda_daily = document.getElementById('soda_daily').value;
+            }
+            
+            if (formData.smoking_enabled) {
+                formData.smoking_type = document.getElementById('smoking_type').value;
+                if (formData.smoking_type === 'cigarettes') {
+                    formData.cigarettes_daily = document.getElementById('cigarettes_daily').value;
+                } else if (formData.smoking_type === 'vape_disposable') {
+                    formData.vape_disposable_monthly = document.getElementById('vape_disposable_monthly').value;
+                } else if (formData.smoking_type === 'hookah') {
+                    formData.hookah_weekly = document.getElementById('hookah_weekly').value;
+                }
+            }
+            
+            if (formData.junk_food_enabled) {
+                formData.junk_food_type = document.getElementById('junk_food_type').value;
+                if (formData.junk_food_type === 'chips') {
+                    formData.chips_weekly = document.getElementById('chips_weekly').value;
+                } else if (formData.junk_food_type === 'pizza') {
+                    formData.pizza_type = document.getElementById('pizza_type').value;
+                    formData.pizza_weekly = document.getElementById('pizza_weekly').value;
+                } else if (formData.junk_food_type === 'burgers') {
+                    formData.burgers_type = document.getElementById('burgers_type').value;
+                    formData.burgers_weekly = document.getElementById('burgers_weekly').value;
+                } else if (formData.junk_food_type === 'sweets') {
+                    formData.sweets_weekly = document.getElementById('sweets_weekly').value;
+                }
+            }
+            
+            if (formData.gambling_enabled) {
+                formData.gambling_type = document.getElementById('gambling_type').value;
+                if (formData.gambling_type === 'lottery') {
+                    formData.lottery_weekly = document.getElementById('lottery_weekly').value;
+                } else if (formData.gambling_type === 'casino') {
+                    formData.casino_type = document.getElementById('casino_type').value;
+                } else if (formData.gambling_type === 'betting') {
+                    formData.betting_type = document.getElementById('betting_type').value;
+                }
+            }
+            
+            try {
+                const response = await fetch('/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const results = await response.json();
+                displayResults(results);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Виникла помилка при розрахунку. Спробуйте ще раз.');
+            }
+        });
+
+        function displayResults(results) {
+            // Показати секцію результатів
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Оновити загальні витрати
+            document.getElementById('total_day').textContent = results.total_cost_day.toFixed(2) + ' грн';
+            document.getElementById('total_week').textContent = results.total_cost_week.toFixed(2) + ' грн';
+            document.getElementById('total_month').textContent = results.total_cost_month.toFixed(2) + ' грн';
+            document.getElementById('total_year').textContent = results.total_cost_year.toFixed(2) + ' грн';
+            
+            // Деталізація витрат
+            const breakdownDiv = document.getElementById('breakdown');
+            breakdownDiv.innerHTML = '';
+            
+            results.breakdown.forEach(item => {
+                const breakdownItem = document.createElement('div');
+                breakdownItem.className = 'border rounded-lg p-4 bg-gray-50';
+                breakdownItem.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">${item.type} - ${item.subtype}</h3>
+                    <p class="text-sm text-gray-600 mb-3">Бренди: ${item.brands.join(', ')}</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                        <div><span class="font-medium">День:</span> ${item.daily.toFixed(2)} грн</div>
+                        <div><span class="font-medium">Тиждень:</span> ${item.weekly.toFixed(2)} грн</div>
+                        <div><span class="font-medium">Місяць:</span> ${item.monthly.toFixed(2)} грн</div>
+                        <div><span class="font-medium">Рік:</span> ${item.yearly.toFixed(2)} грн</div>
+                    </div>
+                `;
+                breakdownDiv.appendChild(breakdownItem);
+            });
+            
+            // Захворювання
+            const diseasesDiv = document.getElementById('diseases');
+            diseasesDiv.innerHTML = '';
+            
+            if (results.diseases.length > 0) {
+                results.diseases.forEach(disease => {
+                    const diseaseItem = document.createElement('div');
+                    diseaseItem.className = 'flex items-center p-3 bg-red-50 rounded-lg border border-red-200';
+                    diseaseItem.innerHTML = `
+                        <span class="text-red-600 mr-2">⚠️</span>
+                        <span class="text-gray-700">${disease}</span>
+                    `;
+                    diseasesDiv.appendChild(diseaseItem);
+                });
+            } else {
+                diseasesDiv.innerHTML = '<p class="text-gray-500">При обраних параметрах ризики мінімальні, але пам\'ятайте про профілактику!</p>';
+            }
+            
+            // Ідеї для заощаджень
+            const ideasDiv = document.getElementById('saving_ideas');
+            ideasDiv.innerHTML = '';
+            
+            results.saving_ideas.forEach(idea => {
+                const ideaItem = document.createElement('div');
+                ideaItem.className = 'flex items-center p-4 bg-green-50 rounded-lg border border-green-200 hover:bg-green-100 transition-colors';
+                ideaItem.innerHTML = `
+                    <span class="text-green-600 mr-3 text-2xl">🎁</span>
+                    <span class="text-gray-700 font-medium">${idea}</span>
+                `;
+                ideasDiv.appendChild(ideaItem);
+            });
+            
+            // Прокрутка до результатів
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
